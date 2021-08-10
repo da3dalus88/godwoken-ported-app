@@ -1,0 +1,16 @@
+{
+    "host": "127.0.0.1",
+    "port": "8050",
+    "server": {
+        "baseDir": [
+            "./src",
+            "./build/contracts"
+        ],
+        "routes": {
+            "/vendor": "./node_modules"
+        }
+    },
+    "ui": {
+        "port": 8001
+    }
+}
