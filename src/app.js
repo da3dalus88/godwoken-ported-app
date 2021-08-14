@@ -4,10 +4,11 @@ const providerConfig = {
       ethAccountLockCodeHash: '0xdeec13a7b8e100579541384ccaf4b5223733e4a5483c3aec95ddc4c1d5ea5b22',
       web3Url:  godwokenRpcUrl
     }
-const provider = new PolyjuiceHttpProvider(godwokenRpcUrl, providerConfig)
+const provider = new PolyjuiceHttpProvider(godwokenRpcUrl, providerConfig);
 const DEFAULT_SEND_OPTIONS = {
 	    gas: 6000000
 };
+
 
 App = {
     loading: false,
@@ -15,7 +16,8 @@ App = {
     load: async () => {
         await App.loadWeb3()
         await App.loadAccount()
-        await App.loadContract()
+	await App.loadContract()
+        await App.loadProxyContract()
         await App.render()
         await App.balance()
     },
@@ -30,6 +32,16 @@ App = {
 		})
 		App.account = accounts[0]
   },
+  loadProxyContract: async() => {
+	try {		
+	  		const proxyContractAddr  = '0x48c8685390C4C9d964D574b16c85037aE522113B'
+			const proxyContract = await $.getJSON('ERC20.json')
+	  		App.contracts.proxyContract = new web3.eth.Contract(proxyContract.abi, proxyContractAddr)
+	} catch (error){
+		console.error(error)
+	}
+  },
+
   loadContract: async () => {
      try {
 			const todoContractAddr = '0xd0e2951371fB60C242Ef66Fcd63D7ff9e7A8d502'
@@ -138,11 +150,29 @@ App = {
   balance: async () => {
 		const addressTranslator = new AddressTranslator()
 		const polyjuiceAddress = addressTranslator.ethAddressToGodwokenShortAddress(App.account)
-    
-    console.log(App.account, polyjuiceAddress)
+                const depositAddress = await addressTranslator.getLayer2DepositAddress(web3,App.account)
+	  	const SUDTBalance = await App.contracts.proxyContract.methods.balanceOf(polyjuiceAddress).call({
+			...DEFAULT_SEND_OPTIONS,
+			from: App.account
+		})
+		const L2Balance = BigInt(await web3.eth.getBalance(App.account)) / 10n ** 8n
+		
 
+    console.log("Deposit address on layer 1:")  
+    console.log(App.account, depositAddress.addressString)
+    console.log("Polyjuice translated address:")
+    console.log(App.account, polyjuiceAddress)
+    console.log("SUDT balance:")
+    console.log(SUDTBalance)
+    console.log("Layer 2 balance:")
+    console.log(L2Balance)
+
+    $('#deposit-address').text(depositAddress.addressString)
     $('#eth-address').text(App.account)
     $('#poly-address').text(polyjuiceAddress)
+    $('#SUDT-balance').text(SUDTBalance)
+    $('#poly-balance').text(L2Balance+' CKB')
+
 	}
 }
 

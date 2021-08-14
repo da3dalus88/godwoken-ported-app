@@ -19,8 +19,9 @@
     <![endif]-->
 
     <style>
-        main {
-            margin-top: 60px;
+        body {
+		font-size:14px;
+		font-family: Helvetica, sans-serif;
         }
 
         #content {
@@ -36,7 +37,7 @@
             margin-bottom: 0px;
         }
         .my-card {
-            width: 446px;
+		width: 600px;
         }
         #completedTaskList .content {
             color: grey;
@@ -55,20 +56,39 @@
             </li>
         </ul>
     </nav>
-    <div class="container-fluid mt-5">
-        <div class="card mx-auto my-card">
-            <span class="text-center text-capitalize fs-3">Address</span>
+    <div class="container mt-5">
+    	<div class="row">
+	<div class="col-md-auto">
+	  <div class="card mx-auto my-card">
+            <span class="text-center text-capitalize fs-3 mt-3">Your addresses and balances</span>
             <div class="card-body">
-                <h5 class="card-title text-capitalize">Eth</h5>
+                <h6 class="card-title text-capitalize">Eth Adress: </h6>
                 <p class="card-text" id="eth-address"></p>
-                <h5 class="card-title text-capitalize">Polyjuice</h5>
+                <h6 class="card-title text-capitalize">Layer 2 Address: </h6>
                 <p class="card-text" id="poly-address"></p>
-            </div>
+        	<h6 class="card-title text-capitalize">Layer 2 balance:</h6>
+		<p class="card-text" id="poly-balance"></p>
+        	<h6 class="card-title text-capitalize">Layer 2 deposit address on layer 1:</h6>
+		<p class="card-text" id="deposit-address"></p>
+		<p class="card-text">Follow the steps below to transfer assets via Force Bridge:
+		<ol>
+			<li>Go to the <a href="https://force-bridge-test.ckbapp.dev/bridge/Ethereum/Nervos" target="_blank">Force Bridge website</a></li>
+			<li>Select Eth as an asset to transfer, then specify the amount. There will be a small fee.</li>
+			<li>Copy your Layer 2 deposit address from above and paste in the box marked "recipient".</li>
+			<li>Click the bridge button and sign the transaction with Metamask.</li>
+		</ol>
+		</p>
+	    
+        	<h6 class="card-title text-capitalize">Your SUDT balance:</h6>
+		<p class="card-text" id="SUDT-balance"></p>
+	    </div>
         </div>
     </div>
-    <div class="container-fluid">
-        <div class="row">
-            <main role="main" class="col-lg-12 d-flex justify-content-center">
+	<div class="col-md-auto">
+       
+	  <div class="card mx-auto ">
+	  <span class="text-center text-capitalize fs-3 mt-3">Add tasks here or mark tasks completed</span>
+       		<div class="card-body"> 
                 <div id="loader" class="text-center">
                     <p class="text-center">Loading...</p>
                 </div>
@@ -87,8 +107,10 @@
                     </ul>
                     <ul id="completedTaskList" class="list-unstyled">
                     </ul>
-                </div>
-            </main>
+		</div>
+		</div>
+	      </div>
+	    </div>
         </div>
     </div>
 
@@ -101,7 +123,7 @@
     <script src="./nervos-godwoken-integration.js"></script>
     <script src="vendor/web3/dist/web3.min.js"></script>
     <script src="vendor/truffle-contract/dist/truffle-contract.js"></script>
-    <script src="app.js"></script>
+    <script src="app.js"></script>	
 </body>
 
 </html>

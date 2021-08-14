@@ -25,6 +25,7 @@
     "@polyjuice-provider/web3": "0.0.1-rc7",
     "@retric/test-provider": "0.0.1-ethers540",
     "nervos-godwoken-integration": "0.0.6",
+    "require": "^2.4.20",
     "truffle-contract": "^4.0.31",
     "web3": "^1.5.1"
   }
